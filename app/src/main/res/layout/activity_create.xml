@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/nameinCreateActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入名字"/>
+    <EditText
+        android:id="@+id/phonenumberinCreateActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入电话"/>
+    <TextView
+        android:id="@+id/createTextinCreateActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="创建"
+        android:textSize="20sp"
+        android:gravity="right"
+        android:paddingRight="20dp"/>
+</LinearLayout>
