@@ -1,5 +1,8 @@
 package com.hgsil.android.telephonedirectory;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,8 @@ class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameHolder>{
     private ArrayList<String> names;
     private ArrayList<String> phonenumbers;
     private int count;
+    private static int position;
+    MyRecyclerItemClickListener myRecyclerItemClickListener;
 
     NameAdapter(ArrayList<String> names,ArrayList<String> phonenumber,int count){
         this.names=names;
@@ -24,7 +29,8 @@ class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameHolder>{
         this.count = count;
     }
     public NameAdapter.NameHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new NameHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nameitem,parent,false));
+        return new NameHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nameitem,parent,false)
+        ,myRecyclerItemClickListener);
     }
     public void onBindViewHolder(NameAdapter.NameHolder holder, int position) {
         holder.name.setText("用户名"+"    "+String.valueOf(names.get(position)));
@@ -34,21 +40,34 @@ class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameHolder>{
     public int getItemCount() {
         return count;
     }
+    public void setOnItemClickListener(MyRecyclerItemClickListener listener){
+        this.myRecyclerItemClickListener = listener;
+    }
 
 
-    class NameHolder extends RecyclerView.ViewHolder{
+    class NameHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name;
         TextView phonenumber;
-        public NameHolder(View itemView) {
+        TextView call;
+        private MyRecyclerItemClickListener myRecyclerItemClickListener;
+
+        public NameHolder(View itemView,MyRecyclerItemClickListener myRecyclerItemClickListener) {
             super(itemView);
-            name =(TextView) itemView.findViewById(R.id.name);
-            phonenumber = (TextView) itemView.findViewById(R.id.phonenumberinNameItem);
+            this.myRecyclerItemClickListener = myRecyclerItemClickListener;
+            name = (TextView)itemView.findViewById(R.id.name);
+            phonenumber =(TextView)itemView.findViewById(R.id.phonenumberinNameItem);
+            call =(TextView)itemView.findViewById(R.id.call);
+            itemView.setOnClickListener(this);
+            position++;
 
         }
-        public void add(String name,String phonenumber,int position){
-            names.add(position,name);
-            phonenumbers.add(position,phonenumber);
-            notifyItemInserted(position);
+
+
+        @Override
+        public void onClick(View v) {
+            if(myRecyclerItemClickListener != null){
+                myRecyclerItemClickListener.onItemClick(itemView,position);
+            }
         }
     }
 }

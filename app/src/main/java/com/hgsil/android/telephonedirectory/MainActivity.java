@@ -1,27 +1,18 @@
 package com.hgsil.android.telephonedirectory;
 
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.support.annotation.LayoutRes;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends Activity {
     private RecyclerView mRecyclerView ;
@@ -29,7 +20,7 @@ public class MainActivity extends Activity {
     private ArrayList<String> mPhonenumber;
     private NameAdapter  nameAdapter;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -48,8 +39,19 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this,CreateActivity.class);
                 startActivityForResult(intent,1234);
                 Toast.makeText(MainActivity.this,"创建成功",Toast.LENGTH_SHORT);
+
             }
         });
+        nameAdapter.setOnItemClickListener
+                (new MyRecyclerItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Uri telUri = Uri.parse("tel:"+mPhonenumber.get(position).toString());
+                        Intent returnIt = new Intent(Intent.ACTION_DIAL, telUri);
+                        startActivity(returnIt);
+                    }
+                }
+            );
 
     }
     protected void initNames(){
@@ -60,11 +62,15 @@ public class MainActivity extends Activity {
                 cursor=getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                         null,null,null,null);
                 while (cursor.moveToNext()) {
-
-                    mNames.add(cursor.getString(cursor.
-                            getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
-                    mPhonenumber.add(cursor.getString(cursor.
-                            getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+                    if (cursor.getString(
+                            cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))!=null
+                            &&cursor.getString(
+                            cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))!=null) {
+                        mNames.add(cursor.getString(cursor.
+                                getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
+                        mPhonenumber.add(cursor.getString(cursor.
+                                getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+                    }
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -76,7 +82,7 @@ public class MainActivity extends Activity {
 
     }
 
-    @Override
+    @Override//另一活动结束时调用此函数 刷新界面。。。但是好像数据没传过来。。
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
             case 1234:
@@ -90,6 +96,7 @@ public class MainActivity extends Activity {
             default:
         }
     }
+
 
 
     /* public static void actionStart(Context context, String data1, String data2) {

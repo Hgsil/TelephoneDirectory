@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/list_layout"
               android:orientation="vertical"
               android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:text="hello"
             android:textSize="20sp"
-            android:paddingLeft="30sp"
+            android:paddingLeft="20sp"
             android:textColor="#000000"
             android:layout_marginTop="10dp"
             />
@@ -23,16 +23,26 @@
 
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_width="match_parent"
+            android:layout_marginTop="25dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:id="@+id/phonenumberinNameItem"
             android:layout_below="@+id/name"
             android:text="hello"
             android:textSize="20sp"
-            android:paddingLeft="30sp"
+            android:paddingLeft="20sp"
             android:textColor="#000000"
             android:layout_marginBottom="10dp"
+
             />
+        <TextView
+            android:id="@+id/call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_toRightOf="@+id/phonenumberinNameItem"
+            android:drawableLeft="@drawable/ic_action_name"
+            android:layout_marginTop="20dp"/>
 
 
-</LinearLayout>
+</RelativeLayout>
