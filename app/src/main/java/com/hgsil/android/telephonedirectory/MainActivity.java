@@ -1,6 +1,7 @@
 package com.hgsil.android.telephonedirectory;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,7 +28,6 @@ public class MainActivity extends Activity {
     private ArrayList<String> mNames;
     private ArrayList<String> mPhonenumber;
     private NameAdapter  nameAdapter;
-    private  int i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
         initNames();
         mRecyclerView = (RecyclerView)findViewById(R.id.recycle);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        nameAdapter = new NameAdapter(mNames,mPhonenumber,i);
+        nameAdapter = new NameAdapter(mNames,mPhonenumber,mNames.size());
         mRecyclerView.setAdapter(nameAdapter);
 
 
@@ -46,18 +46,11 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 //回调CreateActivity传回来的账户
                 Intent intent = new Intent(MainActivity.this,CreateActivity.class);
-                intent.putExtra("name","");
-                intent.putExtra("phonenumber","");
                 startActivityForResult(intent,1234);
-
-
                 Toast.makeText(MainActivity.this,"创建成功",Toast.LENGTH_SHORT);
-
-
-
-
             }
         });
+
     }
     protected void initNames(){
         mNames = new ArrayList<>();
@@ -77,7 +70,6 @@ public class MainActivity extends Activity {
                 e.printStackTrace();
             }finally {
                 if (cursor !=null){
-                    i = mNames.size();
                     cursor.close();
                 }
             }
@@ -91,11 +83,15 @@ public class MainActivity extends Activity {
                 if (resultCode == RESULT_OK) {
                     mNames.add(intent.getStringExtra("name"));
                     mPhonenumber.add(intent.getStringExtra("phonenumber"));
+                    mRecyclerView.removeAllViews();
+                    nameAdapter.notifyDataSetChanged();
                 }
                 break;
             default:
         }
     }
+
+
     /* public static void actionStart(Context context, String data1, String data2) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("name", data1);
