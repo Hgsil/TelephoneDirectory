@@ -15,12 +15,12 @@ import java.util.List;
  */
 class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameHolder>{
     private ArrayList<String> names;
-    private ArrayList<String> phonenumber;
+    private ArrayList<String> phonenumbers;
     private int count;
 
     NameAdapter(ArrayList<String> names,ArrayList<String> phonenumber,int count){
         this.names=names;
-        this.phonenumber=phonenumber;
+        this.phonenumbers=phonenumber;
         this.count = count;
     }
     public NameAdapter.NameHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -28,22 +28,27 @@ class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameHolder>{
     }
     public void onBindViewHolder(NameAdapter.NameHolder holder, int position) {
         holder.name.setText("用户名"+"    "+String.valueOf(names.get(position)));
-        holder.phonenumber.setText("电话号码"+"    "+String.valueOf(phonenumber.get(position)));
+        holder.phonenumber.setText("电话号码"+"    "+String.valueOf(phonenumbers.get(position)));
 
     }
     public int getItemCount() {
         return count;
     }
 
+
     class NameHolder extends RecyclerView.ViewHolder{
         TextView name;
         TextView phonenumber;
         public NameHolder(View itemView) {
             super(itemView);
-            LinearLayout table2 = (LinearLayout) itemView.findViewById(R.id.table2);
-            name =(TextView) table2.findViewById(R.id.name);
-            phonenumber = (TextView) table2.findViewById(R.id.phonenumberinNameItem);
+            name =(TextView) itemView.findViewById(R.id.name);
+            phonenumber = (TextView) itemView.findViewById(R.id.phonenumberinNameItem);
 
+        }
+        public void add(String name,String phonenumber,int position){
+            names.add(position,name);
+            phonenumbers.add(position,phonenumber);
+            notifyItemInserted(position);
         }
     }
 }

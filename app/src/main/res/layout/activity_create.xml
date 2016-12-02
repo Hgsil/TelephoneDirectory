@@ -2,13 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+    android:background="#ffffff">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"/>
     <EditText
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:id="@+id/nameinCreateActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入名字"/>
     <EditText
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:id="@+id/phonenumberinCreateActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,5 +29,6 @@
         android:text="创建"
         android:textSize="20sp"
         android:gravity="right"
-        android:paddingRight="20dp"/>
+        android:paddingRight="20dp"
+        android:textColor="#000000"/>
 </LinearLayout>
