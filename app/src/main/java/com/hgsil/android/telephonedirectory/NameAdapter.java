@@ -20,7 +20,6 @@ class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameHolder>{
     private ArrayList<String> names;
     private ArrayList<String> phonenumbers;
     private int count;
-    private static int position;
     MyRecyclerItemClickListener myRecyclerItemClickListener;
 
     NameAdapter(ArrayList<String> names,ArrayList<String> phonenumber,int count){
@@ -58,7 +57,6 @@ class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameHolder>{
             phonenumber =(TextView)itemView.findViewById(R.id.phonenumberinNameItem);
             call =(TextView)itemView.findViewById(R.id.call);
             itemView.setOnClickListener(this);
-            position++;
 
         }
 
@@ -66,7 +64,7 @@ class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameHolder>{
         @Override
         public void onClick(View v) {
             if(myRecyclerItemClickListener != null){
-                myRecyclerItemClickListener.onItemClick(itemView,position);
+                myRecyclerItemClickListener.onItemClick(itemView,getAdapterPosition());
             }
         }
     }

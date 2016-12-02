@@ -36,9 +36,10 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //回调CreateActivity传回来的账户
-                Intent intent = new Intent(MainActivity.this,CreateActivity.class);
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,CreateActivity.class);
                 startActivityForResult(intent,1234);
-                Toast.makeText(MainActivity.this,"创建成功",Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this,"创建成功",Toast.LENGTH_SHORT);//Toast 显示不出来
 
             }
         });
@@ -49,6 +50,7 @@ public class MainActivity extends Activity {
                         Uri telUri = Uri.parse("tel:"+mPhonenumber.get(position).toString());
                         Intent returnIt = new Intent(Intent.ACTION_DIAL, telUri);
                         startActivity(returnIt);
+
                     }
                 }
             );
@@ -82,19 +84,18 @@ public class MainActivity extends Activity {
 
     }
 
-    @Override//另一活动结束时调用此函数 刷新界面。。。但是好像数据没传过来。。
+    @Override//另一活动结束时调用此函数 刷新界面。。。但是好像数据没传过来。。好像是因为这一块没有调用 但是不知道为什么
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        switch (requestCode) {
-            case 1234:
-                if (resultCode == RESULT_OK) {
-                    mNames.add(intent.getStringExtra("name"));
-                    mPhonenumber.add(intent.getStringExtra("phonenumber"));
-                    mRecyclerView.removeAllViews();
-                    nameAdapter.notifyDataSetChanged();
-                }
-                break;
-            default:
+        if (requestCode == 1234) {
+            if (resultCode == RESULT_OK) {
+                Bundle bundle =intent.getExtras();
+                mNames.add(bundle.getString("name"));
+                mPhonenumber.add(bundle.getString("phonenumber"));
+                mRecyclerView.removeAllViews();
+                nameAdapter.notifyDataSetChanged();
+            }
         }
+
     }
 
 
